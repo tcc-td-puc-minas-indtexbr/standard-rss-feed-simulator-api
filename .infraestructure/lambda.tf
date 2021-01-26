@@ -15,11 +15,11 @@ resource "aws_iam_role" "lambda_role" {
   assume_role_policy = file("policies/iam/aws_lambda_role.json")
 }
 
-//data "archive_file" "lambda_file" {
-//  output_path = "${local.lambda_filename}"
-//  source_dir = ""
-//  type = "zip"
-//}
+data "archive_file" "lambda_file" {
+  output_path = var.aws_lambda_filename
+  source_dir = var.aws_lambda_source_dir
+  type = "zip"
+}
 
 resource "aws_lambda_function" "test_lambda" {
   function_name = var.aws_lambda_function_name

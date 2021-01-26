@@ -1,2 +1,9 @@
 .idea
 node_modules/
+/dist/
+/target
+/.infraestructure/.terraform/
+/.infraestructure/.terraform.lock.hcl
+/.infraestructure/terraform.tfstate
+/.infraestructure/terraform.tfstate.backup
+/.infraestructure/dist/deployment.zip

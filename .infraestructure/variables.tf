@@ -20,10 +20,15 @@ variable "aws_lambda_handler" {
 
 variable "aws_lambda_runtime" {
   type    = string
-  default = "node12"
+  default = "nodejs12.x"
 }
 
 variable "aws_lambda_filename" {
   type    = string
-  default = "./dist/deployment.zip"
+  default = "../dist/deployment.zip"
+}
+
+variable "aws_lambda_source_dir" {
+  type    = string
+  default = "../target"
 }
