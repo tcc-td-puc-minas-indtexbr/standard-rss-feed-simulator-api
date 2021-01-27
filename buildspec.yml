@@ -6,7 +6,7 @@ env:
 phases:
   install:
     runtime-versions:
-      node: 12.x
+      nodejs: 12.x
   build:
     commands:
       - echo Installing all requirements

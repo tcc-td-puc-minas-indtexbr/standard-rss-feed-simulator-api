@@ -44,14 +44,19 @@ resource "aws_codepipeline" "codepipeline" {
       category = "Build"
       owner = "AWS"
       provider = "CodeBuild"
-      input_artifacts = [
-        "SourceArtifact"]
-      output_artifacts = [
-        "BuildArtifact"]
       version = "1"
+      namespace = "BuildVariables"
+      input_artifacts = [
+        "SourceArtifact"
+      ]
+      output_artifacts = [
+        "BuildArtifact"
+      ]
+
+//      role_arn = var.aws_codebuild_role_arn
 
       configuration = {
-        ProjectName = var.project_name
+        ProjectName = "generic_lambda"
       }
     }
   }
@@ -67,7 +72,7 @@ resource "aws_codepipeline" "codepipeline" {
       input_artifacts = [
         "BuildArtifact"]
       version = "1"
-      //      role_arn        = var.aws_codedeploy_deploy_arn
+//      role_arn        = var.aws_codedeploy_role_arn
       configuration = {
         //        ActionMode     = "REPLACE_ON_FAILURE"
         ActionMode = "CREATE_UPDATE"
@@ -83,12 +88,6 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 }
-
-//resource "aws_codestarconnections_connection" "example" {
-//  name          = "example-connection"
-//  provider_type = "GitHub"
-//}
-
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = var.aws_codepipeline_bucket
@@ -110,6 +109,23 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
 {
   "Version": "2012-10-17",
   "Statement": [
+    {
+        "Action": [
+            "iam:PassRole"
+        ],
+        "Resource": "*",
+        "Effect": "Allow",
+        "Condition": {
+            "StringEqualsIfExists": {
+                "iam:PassedToService": [
+                    "cloudformation.amazonaws.com",
+                    "elasticbeanstalk.amazonaws.com",
+                    "ec2.amazonaws.com",
+                    "ecs-tasks.amazonaws.com"
+                ]
+            }
+        }
+    },
     {
       "Effect":"Allow",
       "Action": [
