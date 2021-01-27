@@ -7,3 +7,4 @@ node_modules/
 /.infraestructure/terraform.tfstate
 /.infraestructure/terraform.tfstate.backup
 /.infraestructure/dist/deployment.zip
+/packaged.yml

@@ -50,7 +50,7 @@ variable "aws_codepipeline_branch_name" {
 variable "aws_codestar_connection_arn" {
   type        = string
   description = "CodeStar connection ARN required for Bitbucket integration with CodePipeline"
-  default     = "arn:aws:codestar-connections:sa-east-1:821579492372:connection/b1f0018d-d2c7-4ae0-8a2d-40644a29e112"
+  default     = ""
 }
 
 variable "aws_codebuild_role_arn" {
