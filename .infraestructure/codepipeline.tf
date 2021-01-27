@@ -81,7 +81,7 @@ resource "aws_codepipeline" "codepipeline" {
         StackName = join("-", [
           var.project_name,
           "stack"])
-        TemplatePath = "BuildArtifact::packaged.yaml"
+        TemplatePath = "BuildArtifact::packaged.yml"
 
 
       }
