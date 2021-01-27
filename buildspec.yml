@@ -21,6 +21,7 @@ phases:
     #      - ./bin/tests/unit-coverage-no-report-html.sh
     finally:
       - echo Generating package file
+      - ./bin/tools/package.sh
       - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --s3-prefix $PROJECT_NAME --output-template-file packaged.yml
 #reports:
 #  UnitTestsReports:
@@ -31,3 +32,4 @@ artifacts:
   files:
     - sam.yml
     - packaged.yml
+    - dist/deployment.zip

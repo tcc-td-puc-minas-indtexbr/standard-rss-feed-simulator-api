@@ -5,8 +5,7 @@ Resources:
   APIHandler:
     Type: AWS::Serverless::Function
     Properties:
-# Somente contexto local, no Pipeline é diferente
-#      CodeUri: ./dist/deployment.zip
+      CodeUri: ./dist/deployment.zip
       Handler: lambda.handler
       Role: arn:aws:iam::821579492372:role/lambda_role
       Runtime: nodejs12.x
