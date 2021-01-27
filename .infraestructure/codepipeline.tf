@@ -72,16 +72,16 @@ resource "aws_codepipeline" "codepipeline" {
       input_artifacts = [
         "BuildArtifact"]
       version = "1"
-//      role_arn        = var.aws_codedeploy_role_arn
+
       configuration = {
-        //        ActionMode     = "REPLACE_ON_FAILURE"
+        RoleArn        = var.aws_codedeploy_role_arn
         ActionMode = "CREATE_UPDATE"
         Capabilities = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM,CAPABILITY_NAMED_IAM"
-        //        OutputFileName = "CreateStackOutput.json"
+
         StackName = join("-", [
           var.project_name,
           "stack"])
-        TemplatePath = "build_output::packaged.yaml"
+        TemplatePath = "BuildArtifact::packaged.yaml"
 
 
       }

@@ -77,6 +77,13 @@
         "lambda:ListFunctions"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:DescribeStacks"
+      ],
+      "Resource": "*"
     }
   ]
 }
