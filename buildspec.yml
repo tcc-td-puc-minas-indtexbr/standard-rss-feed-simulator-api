@@ -2,7 +2,8 @@ version: 0.2
 env:
   #  shell: shell-tag
   variables:
-    S3_BUCKET: "standard-rss-feed-simulator-api"
+    S3_BUCKET: "generic-lambda-builds"
+    PROJECT_NAME: "standard-rss-feed-simulator-api"
 phases:
   install:
     runtime-versions:
@@ -19,7 +20,7 @@ phases:
     #      - ./bin/tests/unit-coverage-no-report-html.sh
     finally:
       - echo Generating package file
-      - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --output-template-file packaged.yml
+      - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --s3-prefix $PROJECT_NAME --output-template-file packaged.yml
 #reports:
 #  UnitTestsReports:
 #    files:
