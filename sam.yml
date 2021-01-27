@@ -1,6 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Simple Lambda deploy'
 Resources:
-  LambdaFunction:
-    Type: AWS::Serverless::Function
+  APIHandler:
+    Type: AWS::Lambda::Function
     Properties:
       CodeUri: target
       Handler: lambda.handler
+      Environment:
+        Variables:
+          - DEBUG: true
+          - LOG_LEVEL: info
+          - APP_ENV: production
+
