@@ -12,6 +12,7 @@ phases:
     commands:
       - echo Installing all requirements
       - npm install
+      - npm run build
   post_build:
     commands:
     #      - echo Installing test requirements
