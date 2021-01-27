@@ -1,0 +1,6 @@
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: target
+      Handler: lambda.handler

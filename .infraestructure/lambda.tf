@@ -1,6 +1,6 @@
-//locals {
-//  lambda_filename = "../dist/deployment.zip"
-//}
+locals {
+  aws_lambda_function_name = var.project_name
+}
 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "lambda_policy"
@@ -22,7 +22,7 @@ data "archive_file" "lambda_file" {
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  function_name = var.aws_lambda_function_name
+  function_name = local.aws_lambda_function_name
   handler = var.aws_lambda_handler
   role = aws_iam_role.lambda_role.arn
   runtime = var.aws_lambda_runtime
