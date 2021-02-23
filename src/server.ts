@@ -113,8 +113,8 @@ export default class Server {
     const server = new Server()
     const app = server.express
 
-    //const serverless = serverlessExpress.createServer(app, () => console.log('Lambda: Runing'))
-    //return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
-    return serverlessExpress({ app })
+    const serverless = serverlessExpress.createServer(app.default, () => console.log('Lambda: Runing'))
+    return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
+    //return serverlessExpress({ app })
   }
 }

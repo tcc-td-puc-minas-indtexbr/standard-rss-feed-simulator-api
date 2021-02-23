@@ -8,5 +8,5 @@ export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ) => {
-  return Server.lambda(event, context)
+  Server.lambda(event, context)
 }
