@@ -44,26 +44,23 @@ export default class Server {
   }
 
   private routes (): void {
-    this.express.get('/', (req, res) => {
-      console.log('/')
+    const API_ROOT = process.env.API_ROOT || ''
+    this.express.get(API_ROOT + '/', (req, res) => {
       const jsonBody: any = {
         app: `${APP_NAME}:${APP_VERSION}`,
         orginalSource: 'https://github.com/mbertolacci/lorem-rss'
       }
       return res.json(jsonBody)
     })
-    this.express.get('/ping', (req, res) => {
-      console.log('/ping')
+    this.express.get(API_ROOT + '/ping', (req, res) => {
       return res.json({ message: 'PONG' })
     })
 
-    this.express.get('/alive', (req, res) => {
-      console.log('/alive')
+    this.express.get(API_ROOT + '/alive', (req, res) => {
       return res.json({ app: "I 'am alive" })
     })
 
-    this.express.get('/feed', (req, res) => {
-      console.log('/feed')
+    this.express.get(API_ROOT + '/feed', (req, res) => {
       const interval = this.getInterval(req)
       const unit = this.getUnit(req)
       const length = this.getLength(req)

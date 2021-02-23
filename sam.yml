@@ -261,6 +261,7 @@ Resources:
           DEBUG: 'true'
           LOG_LEVEL: info
           APP_ENV: development
+          API_ROOT: '/sigo-standard-rss'
       Timeout: 120
       Tags:
         Sector: IndTexBr
