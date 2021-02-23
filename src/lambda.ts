@@ -4,7 +4,7 @@ import {
 } from 'aws-lambda'
 import Server from './server'
 
-export const lambda = async (
+export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ) => {
