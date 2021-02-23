@@ -117,4 +117,11 @@ export default class Server {
     //return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
     return serverlessExpress({ app })
   }
+
+  static lambda2 (
+  ) {
+    const server = new Server()
+    const app = server.express
+    return serverlessExpress({ app })
+  }
 }
