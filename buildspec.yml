@@ -24,6 +24,7 @@ phases:
     finally:
       - echo Generating package file
       - ./bin/tools/package.sh
+      - zip -r ./dist/deployment.zip node_modules
       - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --s3-prefix $PROJECT_NAME --output-template-file packaged.yml
       - sed -i "s/\${AWS::AccountId}:role/${ACCOUNT_ID}:role/g" packaged.yml
 #reports:
