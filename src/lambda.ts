@@ -10,10 +10,9 @@ export const handler = (
 ) => {
   return Server.lambda(event, context)
 }
-export const handler2 = Server.lambda3
-export const handler3 = (
+export const handlerV2 = (
   event: APIGatewayProxyEvent,
   context: Context
 ) => {
-  return Server.lambdaDeprecated(event, context)
+  return Server.lambdaV2(event, context)
 }

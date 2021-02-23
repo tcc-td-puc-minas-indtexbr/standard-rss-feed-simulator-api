@@ -126,8 +126,6 @@ const event: APIGatewayProxyEvent = {
 }
 const context: Context = null
 
-Server.lambdaDeprecated(event, context)
-
 Server.lambda(event, context)
 
-Server.lambda3()
+Server.lambdaV2(event, context)

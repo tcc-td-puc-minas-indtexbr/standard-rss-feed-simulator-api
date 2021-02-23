@@ -106,7 +106,7 @@ export default class Server {
     return app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`))
   }
 
-  static lambdaDeprecated (
+  static lambda (
     event: APIGatewayProxyEvent,
     context: Context
   ) {
@@ -117,17 +117,9 @@ export default class Server {
     return serverlessExpress.proxy(serverless, event, context)
   }
 
-  static lambda (
+  static lambdaV2 (
     event: APIGatewayProxyEvent,
     context: Context
-  ) {
-    const server = new Server()
-    const app = server.express
-
-    return serverlessExpress({ app })
-  }
-
-  static lambda3 (
   ) {
     const server = new Server()
     const app = server.express
