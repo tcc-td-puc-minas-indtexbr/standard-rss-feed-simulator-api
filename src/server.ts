@@ -45,6 +45,7 @@ export default class Server {
 
   private routes (): void {
     this.express.get('/', (req, res) => {
+      console.log('/')
       const jsonBody: any = {
         app: `${APP_NAME}:${APP_VERSION}`,
         orginalSource: 'https://github.com/mbertolacci/lorem-rss'
@@ -52,14 +53,17 @@ export default class Server {
       return res.json(jsonBody)
     })
     this.express.get('/ping', (req, res) => {
+      console.log('/ping')
       return res.json({ message: 'PONG' })
     })
 
     this.express.get('/alive', (req, res) => {
+      console.log('/alive')
       return res.json({ app: "I 'am alive" })
     })
 
     this.express.get('/feed', (req, res) => {
+      console.log('/feed')
       const interval = this.getInterval(req)
       const unit = this.getUnit(req)
       const length = this.getLength(req)
@@ -109,7 +113,8 @@ export default class Server {
     const server = new Server()
     const app = server.express
 
-    const serverless = serverlessExpress.createServer(app, () => console.log('Lambda: Runing'))
-    return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
+    //const serverless = serverlessExpress.createServer(app, () => console.log('Lambda: Runing'))
+    //return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
+    return serverlessExpress({ app })
   }
 }
