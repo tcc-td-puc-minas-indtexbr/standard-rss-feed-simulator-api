@@ -1,6 +1,13 @@
+try {
+  console.log('try')
+  import * as pack from './package.json'
+} catch(e) {
+  console.log('catch')
+  import * as pack from '../package.json'
+}
+
 import express from 'express'
 import cors from 'cors'
-import * as pack from '../package.json'
 import App from './app'
 import crypto from 'crypto'
 import serverlessExpress, { ProxyResult } from 'aws-serverless-express'
