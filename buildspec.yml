@@ -8,10 +8,12 @@ phases:
   install:
     runtime-versions:
       nodejs: 12.x
-  build:
     commands:
       - echo Installing all requirements
       - npm install
+  build:
+    commands:
+      - echo Buldinf project
       - npm run build
   post_build:
     commands:
@@ -23,6 +25,7 @@ phases:
       - echo Generating package file
       - ./bin/tools/package.sh
       - aws cloudformation package --template-file sam.yml --s3-bucket $S3_BUCKET --s3-prefix $PROJECT_NAME --output-template-file packaged.yml
+      - sed -i "s/\${AWS::AccountId}:role/${ACCOUNT_ID}:role/g" packaged.yml
 #reports:
 #  UnitTestsReports:
 #    files:
