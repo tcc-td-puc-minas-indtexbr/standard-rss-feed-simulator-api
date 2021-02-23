@@ -1,17 +1,17 @@
-try {
-  console.log('try')
-  import * as pack from './package.json'
-} catch(e) {
-  console.log('catch')
-  import * as pack from '../package.json'
-}
-
 import express from 'express'
 import cors from 'cors'
 import App from './app'
 import crypto from 'crypto'
-import serverlessExpress, { ProxyResult } from '@vendia/serverless-express'
+import serverlessExpress from '@vendia/serverless-express'
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
+
+try {
+  console.log('try')
+  import * as pack from './package.json'
+} catch (e) {
+  console.log('catch')
+  import * as pack from '../package.json'
+}
 
 export interface ProcessEnv {
   [key: string]: string | undefined
@@ -106,22 +106,32 @@ export default class Server {
     return app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`))
   }
 
-  static lambda (
+  static lambdaDeprecated (
     event: APIGatewayProxyEvent,
     context: Context
-  ):ProxyResult {
-    const server = new Server()
-    const app = server.express
-
-    //const serverless = serverlessExpress.createServer(app.default, () => console.log('Lambda: Runing'))
-    //return serverlessExpress.proxy(serverless, event, context, 'PROMISE')
-    return serverlessExpress({ app })
-  }
-
-  static lambda2 (
   ) {
     const server = new Server()
     const app = server.express
+
+    const serverless = serverlessExpress.createServer(app, () => console.log('Lambda: Runing'))
+    return serverlessExpress.proxy(serverless, event, context)
+  }
+
+  static lambda (
+    event: APIGatewayProxyEvent,
+    context: Context
+  ) {
+    const server = new Server()
+    const app = server.express
+
+    return serverlessExpress({ app })
+  }
+
+  static lambda3 (
+  ) {
+    const server = new Server()
+    const app = server.express
+
     return serverlessExpress({ app })
   }
 }
