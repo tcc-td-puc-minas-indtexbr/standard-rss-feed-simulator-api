@@ -7,9 +7,15 @@ import { APIGatewayProxyEvent, Context } from 'aws-lambda'
 
 try {
   console.log('try')
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line no-unused-vars
   import * as pack from './package.json'
 } catch (e) {
   console.log('catch')
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line no-unused-vars
   import * as pack from '../package.json'
 }
 
@@ -17,7 +23,9 @@ export interface ProcessEnv {
   [key: string]: string | undefined
 }
 
+// eslint-disable-next-line no-undef
 const APP_NAME: string = pack.name
+// eslint-disable-next-line no-undef
 const APP_VERSION: string = pack.version
 // const APP_ARCH_VERSION = 'v1'
 
@@ -110,7 +118,11 @@ export default class Server {
     const server = new Server()
     const app = server.express
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const serverless = serverlessExpress.createServer(app)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return serverlessExpress.proxy(serverless, event, context)
   }
 
