@@ -30,10 +30,25 @@ const APP_VERSION: string = pack.version
 // const APP_ARCH_VERSION = 'v1'
 
 if (typeof (process.env.PORT) === 'undefined') {
-  process.env.PORT = String(3000)
+  process.env.PORT = String(8888) // Porta mais segura
 }
 
+if (typeof (process.env.APP_HOST) === 'undefined') {
+  process.env.APP_HOST = 'http://localhost:8888'
+}
+
+if (typeof (process.env.API_ROOT) === 'undefined') {
+  process.env.API_ROOT = ''
+}
+
+// const defaultVars = {
+//   host: process.env.APP_HOST,
+//   root: process.env.API_ROOT
+// }
+
 export default class Server {
+  public static APP_NAME: string = APP_NAME
+  public static APP_VERSION: string = APP_VERSION
   public express: express.Application
   private app: App
 
@@ -105,9 +120,20 @@ export default class Server {
     return req.query.length || 10
   }
 
+  static logRoutes (app) {
+    app._router.stack.forEach(function (r) {
+      if (r.route && r.route.path) {
+        console.log(r.route.stack[0].method.toUpperCase(), r.route.path)
+      }
+    })
+  }
+
   static execute () {
     const server = new Server()
     const app = server.express
+
+    Server.logRoutes(app)
+
     return app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT}`))
   }
 
@@ -117,6 +143,8 @@ export default class Server {
   ) {
     const server = new Server()
     const app = server.express
+
+    Server.logRoutes(app)
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -133,6 +161,17 @@ export default class Server {
     const server = new Server()
     const app = server.express
 
+    Server.logRoutes(app)
+
     return serverlessExpress({ app })
+  }
+
+  private applyVars (xml: Buffer, defaultVars: any) {
+    let xmlStr = xml.toString()
+    for (const key in defaultVars) {
+      const regex = new RegExp(`#{${key}}`, 'g')
+      xmlStr = xmlStr.replace(regex, defaultVars[key])
+    }
+    return xmlStr
   }
 }
