@@ -4,6 +4,7 @@ import App from './app'
 import crypto from 'crypto'
 import serverlessExpress from '@vendia/serverless-express'
 import { APIGatewayProxyEvent, Context } from 'aws-lambda'
+import routes from './routes'
 
 try {
   console.log('try')
@@ -67,57 +68,9 @@ export default class Server {
   }
 
   private routes (): void {
-    const API_ROOT = process.env.API_ROOT || ''
-    this.express.get(API_ROOT + '/', (req, res) => {
-      const jsonBody: any = {
-        app: `${APP_NAME}:${APP_VERSION}`,
-        orginalSource: 'https://github.com/mbertolacci/lorem-rss'
-      }
-      return res.json(jsonBody)
-    })
-    this.express.get(API_ROOT + '/ping', (req, res) => {
-      return res.json({ message: 'PONG' })
-    })
-
-    this.express.get(API_ROOT + '/alive', (req, res) => {
-      return res.json({ app: "I 'am alive" })
-    })
-
-    this.express.get(API_ROOT + '/feed', (req, res) => {
-      const interval = this.getInterval(req)
-      const unit = this.getUnit(req)
-      const length = this.getLength(req)
-
-      this.app.validate(interval, unit, length)
-      const etagString = this.app.generateEtag(interval, unit)
-      const feed = this.app.generateFeed(interval, unit, length)
-      const xml = feed.xml()
-      // res.set('Content-Type', 'application/rss+xml')
-      res.set('Content-Type', 'application/xml')
-      res.set('ETag', `${crypto.createHash('md5').update(etagString).digest('hex')}`)
-      res.send(xml)
-    })
-  }
-
-  private getInterval (req): number {
-    let interval = 1
-    try {
-      if (req.query.interval != null) {
-        interval = parseInt(req.query.interval)
-      }
-    } catch (e) {
-      throw new Error('Interval must be an integer')
-    }
-
-    return interval
-  }
-
-  private getUnit (req):string {
-    return req.query.unit || 'minute'
-  }
-
-  private getLength (req):number {
-    return req.query.length || 10
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    routes(this.express, this.app)
   }
 
   static logRoutes (app) {
@@ -166,12 +119,29 @@ export default class Server {
     return serverlessExpress({ app })
   }
 
-  private applyVars (xml: Buffer, defaultVars: any) {
+  public static applyVars(xml: any, variables: any) {
     let xmlStr = xml.toString()
-    for (const key in defaultVars) {
-      const regex = new RegExp(`#{${key}}`, 'g')
-      xmlStr = xmlStr.replace(regex, defaultVars[key])
+    if (variables) {
+      for (let key in variables) {
+        // Importante  para evitar o erro:
+        // [Object: null prototype] {}
+        // TypeError: Cannot convert object to primitive value
+        if (key == "_locals") {
+          continue
+        }
+
+        let regex = new RegExp(`#{${key}}`, 'g')
+        try {
+          if (variables.hasOwnProperty(key)) {
+            xmlStr = xmlStr.replace(regex, variables[key] || '')
+          }
+        } catch (e) {
+          console.error(e)
+        }
+
+      }
     }
+
     return xmlStr
   }
 }
